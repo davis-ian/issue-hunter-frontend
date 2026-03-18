@@ -1,48 +1,59 @@
-# issue-hunter-frontend
+# IssueHunter Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+Vue 3 + Vite frontend for browsing ingested GitHub issues and managing search profiles.
 
-## Recommended IDE Setup
+## Stack
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Vue 3 + Vue Router + TypeScript
+- Tailwind CSS (tokenized theme)
+- shadcn-vue style primitives (`Button`, `Input`, `Badge`, `Card`)
 
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Local Setup
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Start frontend
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+By default, `/api/*` requests are proxied to `http://localhost:5015` (see `vite.config.ts`).
+
+### Optional API base URL override
+
+Create a local env file:
 
 ```sh
-npm run build
+VITE_API_BASE_URL=http://localhost:5015
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+When set, the app sends requests directly to that host instead of relying on the Vite dev proxy.
+
+## Useful scripts
 
 ```sh
 npm run lint
+npm run build
 ```
+
+## Current UI surface
+
+- `/issues`: paginated issue explorer with quick filtering
+- `/searches`: search profile list + create/edit dialog
+
+## API assumptions
+
+- `GET /api/issues` returns `{ total, results }`
+- Search profile APIs: `GET /api/searches`, `POST /api/searches`, `PUT /api/searches/{id}`
+- No delete endpoint yet; UI currently supports create + update only
+
+## API architecture
+
+- `src/api/client.ts`: shared HTTP request + normalized API errors
+- `src/api/issues.ts` and `src/api/searches.ts`: endpoint-level SDK functions
+- `src/composables/useIssues.ts` and `src/composables/useSearches.ts`: view-facing data/state hooks
+
+For details, see `docs/frontend-api.md`.
