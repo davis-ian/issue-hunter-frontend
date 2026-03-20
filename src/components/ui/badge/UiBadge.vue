@@ -3,19 +3,23 @@ import { computed } from 'vue'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
-const badgeVariants = cva('inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium', {
-  variants: {
-    variant: {
-      default: 'border-border bg-muted text-foreground',
-      success: 'border-border bg-accent text-foreground',
-      destructive: 'border-border bg-muted text-muted-foreground',
-      outline: 'border-border bg-card text-muted-foreground',
+const badgeVariants = cva(
+  'inline-flex items-center font-mono text-label-sm uppercase tracking-wider px-2 py-0.5',
+  {
+    variants: {
+      variant: {
+        default: 'bg-surface-high text-on-surface-variant',
+        success: 'bg-surface-high text-primary',
+        destructive: 'bg-error/10 text-error',
+        muted: 'bg-surface-low text-on-surface-variant',
+        outline: 'bg-transparent text-on-surface-variant',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
     },
   },
-  defaultVariants: {
-    variant: 'default',
-  },
-})
+)
 
 type BadgeVariants = VariantProps<typeof badgeVariants>
 

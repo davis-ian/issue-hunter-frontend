@@ -5,13 +5,21 @@ import { cn } from '@/lib/utils'
 const props = withDefaults(
   defineProps<{
     class?: string
+    elevated?: boolean
   }>(),
   {
     class: '',
+    elevated: false,
   },
 )
 
-const classes = computed(() => cn('rounded-lg border bg-card text-card-foreground shadow-sm', props.class))
+const classes = computed(() =>
+  cn(
+    'rounded bg-surface-medium transition-colors',
+    props.elevated ? 'bg-surface-high' : '',
+    props.class,
+  ),
+)
 </script>
 
 <template>

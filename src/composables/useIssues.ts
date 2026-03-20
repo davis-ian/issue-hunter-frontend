@@ -21,13 +21,17 @@ export function useIssues(options: UseIssuesOptions = {}) {
   const maxPage = computed(() => Math.max(0, Math.ceil(total.value / pageSize.value) - 1))
 
   async function fetchIssues() {
-    await state.run(() =>
+    const response = await state.run(() =>
       listIssues({
         pageNumber: pageNumber.value,
         pageSize: pageSize.value,
         search: search.value || undefined,
       }),
     )
+
+    console.log('issues response', response)
+    console.log('issues total', response.total)
+    console.table(response.results)
   }
 
   async function applySearch(value?: string) {
